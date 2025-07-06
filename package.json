@@ -15,7 +15,7 @@
     "env:setup": "tsx scripts/env-manager.ts",
     "env:sync": "tsx scripts/env-manager.ts",
     "env:check": "node -e \"console.log('🔍 Current environment variables:'); Object.keys(process.env).filter(k => !k.startsWith('npm_')).sort().forEach(k => console.log(k + '=' + (process.env[k] || '')))\"",
-    "dev": "pnpm env:setup && pnpm docker:up && pnpm db:ready && turbo dev",
+    "dev": "turbo dev",
     "dev:fresh": "pnpm env:setup && pnpm docker:clean && pnpm docker:up && pnpm db:ready && turbo dev",
     "dev:force": "pnpm docker:clean && pnpm env:setup && pnpm docker:up && pnpm db:ready && turbo dev",
     "db:ready": "pnpm db:wait && pnpm db:push",

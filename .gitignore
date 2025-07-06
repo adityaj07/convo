@@ -23,5 +23,3 @@ node_modules/
 .dev.vars
 
 /types/env.d.ts
-
-worker-configuration.d.ts

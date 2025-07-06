@@ -1,5 +1,5 @@
-import { createDatabase } from "@convo/db";
 import { env } from "@/lib/env";
+import { createDatabase, type Database } from "@convo/db";
 
 // Environment-based database URL selection
 function getDatabaseUrl(): string {
@@ -19,4 +19,4 @@ function getDatabaseUrl(): string {
   }
 }
 
-export const db = createDatabase(getDatabaseUrl());
+export const db: Database = createDatabase(getDatabaseUrl());

@@ -7,22 +7,37 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "dev": "turbo dev",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:status": "docker-compose ps",
+    "docker:clean": "docker-compose down -v",
+    "env:setup": "tsx scripts/env-manager.ts",
+    "env:sync": "tsx scripts/env-manager.ts",
+    "env:check": "node -e \"console.log('🔍 Current environment variables:'); Object.keys(process.env).filter(k => !k.startsWith('npm_')).sort().forEach(k => console.log(k + '=' + (process.env[k] || '')))\"",
+    "dev": "pnpm env:setup && pnpm docker:up && pnpm db:ready && turbo dev",
+    "dev:fresh": "pnpm env:setup && pnpm docker:clean && pnpm docker:up && pnpm db:ready && turbo dev",
+    "dev:force": "pnpm docker:clean && pnpm env:setup && pnpm docker:up && pnpm db:ready && turbo dev",
+    "db:ready": "pnpm db:wait && pnpm db:push",
+    "db:wait": "tsx scripts/wait-for-db.ts",
+    "db:push": "dotenv -e .env -- turbo -F @convo/db db:push",
+    "db:studio": "dotenv -e .env -- turbo -F @convo/db db:studio",
+    "db:generate": "dotenv -e .env -- turbo -F @convo/db db:generate",
+    "db:migrate": "dotenv -e .env -- turbo -F @convo/db db:migrate",
     "build": "turbo build",
     "check-types": "turbo check-types",
-    "dev:native": "turbo -F native dev",
     "dev:web": "turbo -F web dev",
-    "dev:server": "turbo -F server dev",
-    "db:push": "turbo -F server db:push",
-    "db:studio": "turbo -F server db:studio",
-    "db:generate": "turbo -F server db:generate",
-    "db:migrate": "turbo -F server db:migrate"
+    "dev:server": "turbo -F server dev"
   },
-  "dependencies": {},
   "devDependencies": {
-    "turbo": "^2.5.4",
+    "@types/node": "^24.0.10",
+    "biome": "^0.3.3",
+    "dotenv": "^17.0.1",
+    "dotenv-cli": "^7.4.4",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.0"
+    "lint-staged": "^15.5.0",
+    "tsx": "^4.20.3",
+    "turbo": "^2.5.4"
   },
   "lint-staged": {
     "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [

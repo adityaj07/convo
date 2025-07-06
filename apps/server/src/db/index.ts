@@ -1,7 +1,22 @@
+import { createDatabase } from "@convo/db";
+import { env } from "@/lib/env";
 
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
-import { env } from "cloudflare:workers";
+// Environment-based database URL selection
+function getDatabaseUrl(): string {
+  if (env.NODE_ENV === "production") {
+    // Use pooler URL for production
+    const prodUrl = env.DATABASE_URL_POOLER || env.DATABASE_URL;
+    if (!prodUrl) {
+      throw new Error("Production DATABASE_URL not configured");
+    }
+    return prodUrl;
+  } else {
+    // Use local database URL for development
+    if (!env.DATABASE_URL) {
+      throw new Error("Development DATABASE_URL not configured");
+    }
+    return env.DATABASE_URL;
+  }
+}
 
-const sql = neon(env.DATABASE_URL || "");
-export const db = drizzle(sql);
+export const db = createDatabase(getDatabaseUrl());

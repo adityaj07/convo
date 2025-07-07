@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@convo/db": "workspace:*",
+    "@convo/schemas": "workspace:*",
+    "@convo/types": "workspace:*",
     "better-auth": "^1.2.10",
     "dotenv": "^16.4.7",
     "hono": "^4.8.2",

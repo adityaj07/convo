@@ -35,6 +35,11 @@
     "db:generate": {
       "cache": false,
       "env": ["DATABASE_URL"]
+    },
+    "generate-exports": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**/*.ts"],
+      "outputs": ["package.json"]
     }
   }
 }

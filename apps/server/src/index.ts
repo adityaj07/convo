@@ -4,6 +4,9 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 
+import { userLoginSchema } from "@convo/schemas/auth";
+import { type userLoginSchemaT } from "@convo/types";
+
 const app = new Hono();
 
 app.use(logger());
